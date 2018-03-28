@@ -23,7 +23,7 @@ class CacheAnnotation
      * @param string $pathCache
      * @param App $app
      */
-    public function __construct(string $pathCache, App $app)
+    public function __construct($pathCache, App $app)
     {
         $this->pathCache = $pathCache;
         $this->application = $app;
@@ -69,7 +69,7 @@ class CacheAnnotation
      * @return bool
      * TODO Refactor chegar a
      */
-    public function updatedCache(array $controlerArray, array $arrayRouteObject) : bool {
+    public function updatedCache(array $controlerArray, array $arrayRouteObject) {
 
         uasort($controlerArray, [CacheAnnotation::class, "orderArrayByDateModified"]);
 

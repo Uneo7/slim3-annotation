@@ -72,7 +72,7 @@ class RouteModel
     /**
      * @param string $verb
      */
-    public function setVerb(string $verb)
+    public function setVerb($verb)
     {
         $this->verb = $verb;
     }
@@ -88,7 +88,7 @@ class RouteModel
     /**
      * @param string $route
      */
-    public function setRoute(string $route)
+    public function setRoute($route)
     {
         $this->route = $route;
     }
@@ -104,7 +104,7 @@ class RouteModel
     /**
      * @param string $className
      */
-    public function setClassName(string $className)
+    public function setClassName($className)
     {
         $this->className = $className;
     }
@@ -120,7 +120,7 @@ class RouteModel
     /**
      * @param string $methodName
      */
-    public function setMethodName(string $methodName)
+    public function setMethodName($methodName)
     {
         $this->methodName = $methodName;
     }
@@ -136,7 +136,7 @@ class RouteModel
     /**
      * @param string $alias
      */
-    public function setAlias(string $alias)
+    public function setAlias($alias)
     {
         $this->alias = $alias;
     }
@@ -144,7 +144,7 @@ class RouteModel
     /**
      * @return array
      */
-    public function getClassMiddleware() : array
+    public function getClassMiddleware()
     {
         return $this->classMiddleware;
     }

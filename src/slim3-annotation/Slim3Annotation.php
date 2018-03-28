@@ -17,7 +17,7 @@ class Slim3Annotation
      * @param string $pathCache
      * @throws \Exception
      */
-    public static function create(App $application, array $arrayController, string $pathCache) {
+    public static function create(App $application, array $arrayController, $pathCache) {
 
         self::createAutoloadCache($pathCache);
 
@@ -47,7 +47,7 @@ class Slim3Annotation
         }
     }
 
-    private static function injectRoute(App $application, array $arrayRouteObject, array $arrayRoute, string $pathCache) {
+    private static function injectRoute(App $application, array $arrayRouteObject, array $arrayRoute, $pathCache) {
 
         $validate = new CacheAnnotation($pathCache, $application);
 
