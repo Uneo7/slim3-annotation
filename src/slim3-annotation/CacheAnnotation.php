@@ -31,6 +31,9 @@ class CacheAnnotation
 
     public function write(array $arrayRouteModel) {
 
+        $di = new \ReflectionClass($this->application->getContainer());
+        $di = $di->getName();
+
         $dateNow = new \DateTime('now');
         $namefile = 'cache' . $dateNow->format('YmdHis');
         $templateClass = file_get_contents(__DIR__ . '/TemplateClassCache.php');
@@ -40,11 +43,14 @@ class CacheAnnotation
         $content = "";
 
         foreach ($arrayRouteModel as $routeModel) {
-
-            $content .= '$route = $app->map(["' . $routeModel->getVerb(). '"], "' . $routeModel->getRoute() . '", "' . $routeModel->getClassName() . ':' . $routeModel->getMethodName() . '");' . PHP_EOL;
+            if ($di === 'DI\Container') {
+                $content .= "\$route = \$app->map(['{$routeModel->getVerb()}'], '{$routeModel->getRoute()}', [\\{$routeModel->getClassName()}::class, '{$routeModel->getMethodName()}']);" . PHP_EOL;
+            } else {
+                $content .= "\$route = \$app->map(['{$routeModel->getVerb()}'], '{$routeModel->getRoute()}', '{$routeModel->getClassName()}:{$routeModel->getMethodName()}');" . PHP_EOL;
+            }
 
             if ($routeModel->getAlias() != null) {
-                $content .= '$route->setName("' . $routeModel->getAlias() . '");' . PHP_EOL;
+                $content .= "\t\t\$route->setName('{$routeModel->getAlias()}');";
             }
 
             if ($routeModel->getClassMiddleware() != null) {

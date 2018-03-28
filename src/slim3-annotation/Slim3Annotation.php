@@ -49,13 +49,20 @@ class Slim3Annotation
 
     private static function injectRoute(App $application, array $arrayRouteObject, array $arrayRoute, $pathCache) {
 
+        $di = new \ReflectionClass($application->getContainer());
+        $di = $di->getName();
+
         $validate = new CacheAnnotation($pathCache, $application);
 
         if ($validate->updatedCache($arrayRoute, $arrayRouteObject)) {
             $validate->loadLastCache();
         } else {
             foreach ($arrayRouteObject as $routeModel) {
-                $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
+                if ($di === 'DI\Container') {
+                    $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), ['\\'.$routeModel->getClassName(), $routeModel->getMethodName()]);
+                } else {
+                    $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
+                }
 
                 if ($routeModel->getAlias() != null) {
                     $route->setName($routeModel->getAlias());
