@@ -56,7 +56,11 @@ class CacheAnnotation
             if ($routeModel->getClassMiddleware() != null) {
                 $classMiddleware = $routeModel->getClassMiddleware();
                 foreach ($classMiddleware as $middleware) {
-                    $content .= '$route->add(new \\' . $middleware . '());' . PHP_EOL;
+                    if ($di === 'DI\Container') {
+                        $content .= '$route->add(\\' . $middleware . '::class);' . PHP_EOL;
+                    } else{
+                        $content .= '$route->add(new \\' . $middleware . '());' . PHP_EOL;
+                    }
                 }
             }
         }
@@ -73,7 +77,6 @@ class CacheAnnotation
     /**
      * @param array $controlerArray
      * @return bool
-     * TODO Refactor chegar a
      */
     public function updatedCache(array $controlerArray, array $arrayRouteObject) {
 
@@ -89,8 +92,6 @@ class CacheAnnotation
                 filemtime($this->pathCache . DIRECTORY_SEPARATOR . $item[0])
             ];
         }
-
-
 
         if (count($arrayDirectoryRegex) == 0)
             return false;
