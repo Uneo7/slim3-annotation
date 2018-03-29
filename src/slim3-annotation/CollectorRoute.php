@@ -8,22 +8,24 @@ use Slim3\Annotation\Model\RouteModel;
 
 class CollectorRoute
 {
-
     /**
      * @param string $pathControllers
      * @return array
      */
     public function getControllers($pathControllers) {
 
-        $directory = new \RecursiveDirectoryIterator($pathControllers);
-        $regexDirectory = new \RecursiveRegexIterator($directory, '/[\w]+Controller\.php$/', \RecursiveRegexIterator::GET_MATCH);
+        $directory = new \RecursiveDirectoryIterator($pathControllers, \RecursiveDirectoryIterator::SKIP_DOTS);
+
+        $filter = new FilenameFilter($directory, '/[\w]+Controller\.php$/');
+        $files = new \RecursiveIteratorIterator($filter);
 
         $arrayReturn = [];
 
-        foreach ($regexDirectory as $item) {
+        foreach($files as $file)
+        {
             $arrayReturn[] = [
-                $pathControllers . DIRECTORY_SEPARATOR . $item[0],
-                filemtime($pathControllers . DIRECTORY_SEPARATOR . $item[0])
+                $file->getRealPath(),
+                filemtime($file->getRealPath())
             ];
         }
 

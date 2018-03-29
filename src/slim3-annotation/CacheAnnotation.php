@@ -50,7 +50,7 @@ class CacheAnnotation
             }
 
             if ($routeModel->getAlias() != null) {
-                $content .= "\t\t\$route->setName('{$routeModel->getAlias()}');";
+                $content .= "\t\t\$route->setName('{$routeModel->getAlias()}');". PHP_EOL;
             }
 
             if ($routeModel->getClassMiddleware() != null) {
