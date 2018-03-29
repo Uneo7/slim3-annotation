@@ -72,7 +72,7 @@ class Slim3Annotation
                     $classMiddleware = $routeModel->getClassMiddleware();
                     foreach ($classMiddleware as $middleware) {
                         if ($di === 'DI\Container') {
-                            $route->add("$middleware::class");
+                            $route->add($middleware);
                         } else {
                             $route->add(new $middleware());
                         }
